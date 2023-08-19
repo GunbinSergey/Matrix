@@ -9,7 +9,7 @@ int** mini_matrix(int** mtrx, int rang, int ban_col);
 
 int Opred(int** mtr, int n)
 {
-
+    //Расчёт определителя
     if (n == 2)
     {
         return mtr[0][0] * mtr[1][1] - mtr[1][0] * mtr[0][1];
@@ -67,6 +67,7 @@ int** mini_matrix(int** mtrx, int rang, int ban_col)
 
 void write_arr(int** arr, int r)
 {
+    //Вывести матириксу в Дебаг
     for (int i = 0; i < r; ++i)
     {
         for (int j = 0; j < r; ++j)

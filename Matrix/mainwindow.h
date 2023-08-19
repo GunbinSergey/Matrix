@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QtWidgets>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -17,5 +18,9 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    QWidget* contrl_panel();
+    QWidget* matrix_widget();
+
+    QTabWidget* mtr_view;
 };
 #endif // MAINWINDOW_H
