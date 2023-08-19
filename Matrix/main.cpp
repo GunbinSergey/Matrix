@@ -5,7 +5,7 @@
 
 void write_arr(int** arr, int r);
 int** mini_matrix(int** mtrx, int rang, int ban_col);
-
+int Opred(int** mtr, int n);
 
 int Opred(int** mtr, int n)
 {
