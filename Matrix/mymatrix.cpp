@@ -6,7 +6,7 @@ void MyMatrix::write_arr(double **arr, int r)
     {
         for (int j = 0; j < r; ++j)
         {
-            qDebug() << arr[i][j];
+            qDebug() << " " <<arr[i][j];
         }
     }
 }
@@ -32,7 +32,7 @@ double **MyMatrix::mini_matrix(double **mtrx, int rang, int ban_col, int ban_row
             if (j == ban_col)
                 continue;
             new_m[coll][row] = mtrx[i][j];
-            //qDebug() << new_m[i-1][row] << " " << mtrx[i][j];
+            qDebug() << new_m[coll][row] << " " << mtrx[i][j];
             row++;
         }
         coll++;
@@ -46,19 +46,15 @@ double **MyMatrix::minor_matrix()
 
     //Составление минорной матриксы
     int n = mtr_r;
-    write_arr(mtr, n);
     double** min_mtr = empty_arr(n);
-    write_arr(mtr, n);
     if (n == 2)
     {
         //Протиаоположные элементы
-        write_arr(mtr, n);
+        //write_arr(mtr, n);
         min_mtr[0][0] = mtr[1][1];
         min_mtr[0][1] = mtr[1][0];
         min_mtr[1][0] = mtr[0][1];
         min_mtr[1][1] = mtr[0][0];
-
-        write_arr(mtr, n);
 
         return min_mtr;
     }
@@ -66,7 +62,8 @@ double **MyMatrix::minor_matrix()
     {
         for (int j = 0; j < n; ++j)
         {
-           double** sub_mtr = mini_matrix(mtr, n-1, i, j);
+           double** sub_mtr = mini_matrix(mtr, n, i, j);
+           write_arr(sub_mtr, n-1);
            min_mtr[i][j] = Opred(sub_mtr, n-1);
         }
     }
@@ -166,7 +163,6 @@ double MyMatrix::Opred(double** mr, int n)
     double** thr = mini_matrix(mr, n, 2);
     if (n == 3)
     {
-
         return mr[0][0] * Opred(frs, n2) - mr[0][1] * Opred(sec, n2) + mr[0][2] * Opred(thr,n2);
     }
     else if (n == 4)
@@ -188,8 +184,8 @@ QStandardItemModel *MyMatrix::Obrat()
 
     QStandardItemModel* data = new QStandardItemModel(n, n);
     //Создание обратной матрицы как транспортированной алгоритмоической матрицы на основе обратной
-    //double** omtr = trans_matrix(alg_dop_mtr(minor_matrix(),  n),  n);
-    double** omtr = minor_matrix();
+    double** omtr = trans_matrix(alg_dop_mtr(minor_matrix(),  n),  n);
+    //double** omtr = minor_matrix();
 
     for(int i = 0; i < n; ++i)
     {
