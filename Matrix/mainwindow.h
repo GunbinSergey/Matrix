@@ -27,12 +27,15 @@ private:
     QMap<QString, QLineEdit*>* widg;
     int mtr_r;
 
-    QLineEdit* r_le;
-    QLineEdit* det_le;
+    QTabWidget* tab_pan;
+    MyMatrix* matr;
+
+    int get_r();
 
 private slots:
     void imput_rang(const QString);
     void create_matr();
     void calc_opred();
+    void make_obr();
 };
 #endif // MAINWINDOW_H

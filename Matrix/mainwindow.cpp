@@ -53,7 +53,8 @@ QWidget *MainWindow::contrl_panel()
     connect(b_calc, &QPushButton::clicked, this, &MainWindow::calc_opred);
 
     QPushButton* b_obr = new QPushButton("Рассчитать обратную матрицу");
-
+    p_vl->addWidget(b_obr);
+    connect(b_obr, &QPushButton::clicked, this, &MainWindow::make_obr);
 
     QLabel* det_lab = new QLabel("Определитель матрицы");
     QLineEdit* det_le = new QLineEdit;
@@ -70,12 +71,32 @@ QWidget *MainWindow::contrl_panel()
 QWidget *MainWindow::matrix_widget()
 {
     //Создание поля под вывод матрицы
+    tab_pan = new QTabWidget;
+
     QWidget* wid = new QWidget();
+
+    tab_pan->addTab(wid,"Основная матрица");
+
     QVBoxLayout* lay = new QVBoxLayout(wid);
     mtr_view = new QTableView();
     lay->addWidget(mtr_view);
-    return(wid);
+    return(tab_pan);
 
+}
+
+int MainWindow::get_r()
+{
+    bool isOk = true;
+    QLineEdit* ed = widg->find("rang").value();
+    QString str = ed->text();
+    int mat_size = str.toInt(&isOk);
+    if (isOk)
+    {
+        return mat_size;
+    }
+    else {
+        return 0;
+    }
 }
 
 
@@ -99,29 +120,39 @@ void MainWindow::calc_opred()
 {
     //Запрос на расчёт определителя
     //Получения размерности матрицы
-    int mtr_r = 0;
-    bool isOk = true;
-    QLineEdit* ed = widg->find("rang").value();
-    QString str = ed->text();
-    int mat_size = str.toInt(&isOk);
-    if (isOk)
-    {
-        mtr_r = mat_size;
-    }
-    else {
-        return;
-    }
+    int mtr_r = get_r();
 
     //Рассчёт определителя
+   // matr = new MyMatrix(mtr_r, mtr_view->model());
     MyMatrix matr(mtr_r, mtr_view->model());
     double res = matr.Opred();
-    ed = widg->find("det").value();
+    //res = matr->Opred();
+    QLineEdit* ed = widg->find("det").value();
     ed->setText(QString::number(res));
 
 }
 
 void MainWindow::make_obr()
 {
+    if(tab_pan->count() > 1)
+    {
+        tab_pan->removeTab(1);
+    }
+
+    QWidget* wid = new QWidget;
+    QTableView* tabl = new QTableView;
+
+    QVBoxLayout *lay = new QVBoxLayout(wid);
+    lay->addWidget(tabl);
+
+    //int mtr_r = get_r();
+    //QStandardItemModel *data = matr->Obrat();
+    //tabl->setModel(data);
+
+    //qDebug() << matr->Opred();
+
+    tab_pan->addTab(wid, "Обратная без домнажения на 1//определитель");
+
 
 }
 

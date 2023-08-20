@@ -46,6 +46,7 @@ double **MyMatrix::minor_matrix()
     //Составление минорной матриксы
     int n = mtr_r;
     double** min_mtr = empty_arr(n);
+
     if (n == 2)
     {
         //Протиаоположные элементы
@@ -53,6 +54,9 @@ double **MyMatrix::minor_matrix()
         min_mtr[0][1] = mtr[1][0];
         min_mtr[1][0] = mtr[0][1];
         min_mtr[1][1] = mtr[0][0];
+
+        write_arr(mtr, n);
+
         return min_mtr;
     }
     for (int i = 0; i < n; ++i)
@@ -102,12 +106,13 @@ double **MyMatrix::empty_arr(int n)
     mtr = new double*[n];
     for(int i = 0; i < mtr_r; ++i)
     {
-        *mtr = new double[mtr_r] {1, 2};
+        *mtr = new double[mtr_r];
         mtr++;
     }
     mtr -= mtr_r;
     return  mtr;
 }
+
 
 MyMatrix::MyMatrix()
 {
@@ -120,8 +125,6 @@ MyMatrix::MyMatrix(int n, QAbstractItemModel *data)
    mtr_r = n;
    mtr = empty_arr(mtr_r);
 
-   //write_arr(mtr, mtr_r);
-
    //Заполнение массива
    for (int i = 0; i < mtr_r; ++i)
    {
@@ -132,7 +135,7 @@ MyMatrix::MyMatrix(int n, QAbstractItemModel *data)
            d = data->data(data->index(i, j)).toDouble(&isOk);;
            if (isOk)
            {
-                mtr[i][j] = d;
+                mtr[i][j] *= d;
            }
            else
            {
@@ -173,5 +176,24 @@ double MyMatrix::Opred(double** mr, int n)
 
 double MyMatrix::Opred()
 {
-   return Opred(mtr, mtr_r);
+    return Opred(mtr, mtr_r);
+}
+
+QStandardItemModel *MyMatrix::Obrat()
+{
+    int n= mtr_r;
+    QStandardItemModel* data = new QStandardItemModel(n, n);
+    //Создание обратной матрицы как транспортированной алгоритмоической матрицы на основе обратной
+    //double** omtr = trans_matrix(alg_dop_mtr(minor_matrix(),  n),  n);
+    double** omtr = minor_matrix();
+
+    for(int i = 0; i < n; ++i)
+    {
+        for(int j = 0; j < n; ++j)
+        {
+            data->setData(data->index(i,j), omtr[i][j]);
+        }
+    }
+
+    return data;
 }

@@ -18,12 +18,14 @@ private:
     double** alg_dop_mtr(double** minor, int n);
     double** trans_matrix(double** mtr, int n);
     double** empty_arr(int r);
+    double** fill_arr(double **);
 
 public:
     MyMatrix();
     MyMatrix(int n,QAbstractItemModel* data);
     double Opred(double** mr, int n);
     double Opred();
+    QStandardItemModel* Obrat();
 };
 
 #endif // MYMATRIX_H
