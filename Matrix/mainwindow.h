@@ -28,7 +28,7 @@ private:
     int mtr_r;
 
     QTabWidget* tab_pan;
-    MyMatrix* matr;
+    //MyMatrix* matr;
 
     int get_r();
 

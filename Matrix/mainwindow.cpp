@@ -124,6 +124,7 @@ void MainWindow::calc_opred()
 
     //Рассчёт определителя
    // matr = new MyMatrix(mtr_r, mtr_view->model());
+
     MyMatrix matr(mtr_r, mtr_view->model());
     double res = matr.Opred();
     //res = matr->Opred();
@@ -147,7 +148,10 @@ void MainWindow::make_obr()
 
     //int mtr_r = get_r();
     //QStandardItemModel *data = matr->Obrat();
-    //tabl->setModel(data);
+    MyMatrix matr(mtr_r, mtr_view->model());
+
+    QStandardItemModel *data = matr.Obrat();
+    tabl->setModel(data);
 
     //qDebug() << matr->Opred();
 
