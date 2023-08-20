@@ -2,6 +2,8 @@
 
 #include <QApplication>
 #include <QDebug>
+#include <QMap>
+
 
 void write_arr(int** arr, int r);
 int** mini_matrix(int** mtrx, int rang, int ban_col);
@@ -27,7 +29,7 @@ int Opred(int** mtr, int n)
     else if (n == 4)
     {
          int** frt = mini_matrix(mtr, n, 2);
-         return mtr[0][0] * Opred(frs, n2) - mtr[0][1] * Opred(sec, n2) + mtr[0][2] * Opred(thr,n2) * mtr[0][3] * Opred(frt, n2);
+         return mtr[0][0] * Opred(frs, n2) - mtr[0][1] * Opred(sec, n2) + mtr[0][2] * Opred(thr,n2) - mtr[0][3] * Opred(frt, n2);
     }
     return 0;
 }
@@ -83,17 +85,13 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     MainWindow w;
     w.show();
+    QMap<int, int> tst;
+    int t = 10;
+    tst.insert(1,t);
+    tst.insert(2,t);
 
-    int n = 3;
-    int **pmas = new int*[n];
-    *pmas = new int[n] {1,4,8};
-    pmas++;
-    *pmas = new int[n] {2,5,2};
-    pmas++;
-    *pmas = new int[n] {7,8,13};
-    pmas -= (n - 1);
 
-    qDebug() << Opred(pmas, n);
+
     return a.exec();
 }
 

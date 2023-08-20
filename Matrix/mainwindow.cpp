@@ -35,7 +35,7 @@ QWidget *MainWindow::contrl_panel()
     QVBoxLayout* p_vl = new QVBoxLayout(wid);
 
     QLabel* r_lab = new QLabel("Ранг матрицы");
-    r_le = new QLineEdit;
+    QLineEdit* r_le = new QLineEdit;
 
     widg = new QMap<QString, QLineEdit*>;
     widg->insert("rang", r_le);
@@ -52,8 +52,11 @@ QWidget *MainWindow::contrl_panel()
     p_vl->addWidget(b_calc);
     connect(b_calc, &QPushButton::clicked, this, &MainWindow::calc_opred);
 
+    QPushButton* b_obr = new QPushButton("Рассчитать обратную матрицу");
+
+
     QLabel* det_lab = new QLabel("Определитель матрицы");
-    det_le = new QLineEdit;
+    QLineEdit* det_le = new QLineEdit;
     det_le->setReadOnly(true);
     widg->insert("det", det_le);
 
@@ -94,13 +97,13 @@ void MainWindow::create_matr()
 
 void MainWindow::calc_opred()
 {
-    //int mtr_r = 0;
+    //Запрос на расчёт определителя
+    //Получения размерности матрицы
+    int mtr_r = 0;
     bool isOk = true;
-    qDebug() << (widg->size());
-    //Временный костыль
-    QLineEdit* ed = widg->first();
+    QLineEdit* ed = widg->find("rang").value();
     QString str = ed->text();
-    int mat_size = mtr_r;
+    int mat_size = str.toInt(&isOk);
     if (isOk)
     {
         mtr_r = mat_size;
@@ -109,10 +112,17 @@ void MainWindow::calc_opred()
         return;
     }
 
+    //Рассчёт определителя
     MyMatrix matr(mtr_r, mtr_view->model());
     double res = matr.Opred();
-    //ed = widg->upperBound("det").value();
-    det_le->setText(QString::number(res));
+    ed = widg->find("det").value();
+    ed->setText(QString::number(res));
 
 }
+
+void MainWindow::make_obr()
+{
+
+}
+
 
