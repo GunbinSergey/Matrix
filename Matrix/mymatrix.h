@@ -19,6 +19,7 @@ private:
     double** trans_matrix(double** mtr, int n);
     double** empty_arr(int r);
     double** fill_arr(double **);
+    void clr_mem(double** mtr, int n);
 
 public:
     MyMatrix();

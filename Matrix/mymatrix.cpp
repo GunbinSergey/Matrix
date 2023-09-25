@@ -6,13 +6,14 @@ void MyMatrix::write_arr(double **arr, int r)
     {
         for (int j = 0; j < r; ++j)
         {
-            qDebug() << " " <<arr[i][j];
+            //qDebug() << " " <<arr[i][j];
         }
     }
 }
 
 double **MyMatrix::mini_matrix(double **mtrx, int rang, int ban_col, int ban_row)
 {
+    qDebug() << mtrx;
     //Матрица с пониженным рангом для расчёта опредилителя старшей
     //ВОзможно row и coll перепутаны названиями (главное, что робит)
     int new_r = rang - 1;
@@ -32,11 +33,13 @@ double **MyMatrix::mini_matrix(double **mtrx, int rang, int ban_col, int ban_row
             if (j == ban_col)
                 continue;
             new_m[coll][row] = mtrx[i][j];
-            qDebug() << new_m[coll][row] << " " << mtrx[i][j];
+            //qDebug() << new_m[coll][row] << " " << mtrx[i][j];
             row++;
         }
         coll++;
     }
+
+
 
     return new_m;
 }
@@ -63,11 +66,13 @@ double **MyMatrix::minor_matrix()
         for (int j = 0; j < n; ++j)
         {
            double** sub_mtr = mini_matrix(mtr, n, i, j);
-           write_arr(sub_mtr, n-1);
+           //write_arr(sub_mtr, n-1);
            min_mtr[i][j] = Opred(sub_mtr, n-1);
+           clr_mem(sub_mtr, n-1);
         }
+
     }
-    return  min_mtr;
+    return  trans_matrix(min_mtr, n);
 }
 
 double **MyMatrix::alg_dop_mtr(double **minor, int n)
@@ -88,6 +93,8 @@ double **MyMatrix::alg_dop_mtr(double **minor, int n)
 
 double **MyMatrix::trans_matrix(double **mtr, int n)
 {
+    //Транспортирование матрицы
+    qDebug() << mtr;
     double** trans = empty_arr(n);
 
     for (int i =0; i < n; ++i)
@@ -97,6 +104,10 @@ double **MyMatrix::trans_matrix(double **mtr, int n)
             trans[i][j] = mtr[j][i];
         }
     }
+
+
+    //clr_mem(mtr, n);
+
     return trans;
 }
 
@@ -111,6 +122,14 @@ double **MyMatrix::empty_arr(int n)
     }
     mtrr -= n;
     return  mtrr;
+}
+
+void MyMatrix::clr_mem(double ** mtr, int n)
+{
+   for (int i = 0; i < n; ++i)
+   {
+       delete[] mtr[i];
+   }
 }
 
 
